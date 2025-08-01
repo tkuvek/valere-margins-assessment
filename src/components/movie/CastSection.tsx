@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { CastMember } from '@/types/movie';
 import { getProfileUrl } from '@/utils/imageUtils';
 import { LoadingSkeleton } from '@/components/ui/LoadingSpinner';
+import { getImageProps } from '@/utils/imageUtils';
 
 interface CastSectionProps {
   cast: CastMember[];
@@ -46,7 +47,7 @@ export function CastSection({ cast, loading = false, maxDisplay = 10 }: CastSect
           <div key={member.id} className="flex-shrink-0 w-24 text-center">
             <div className="relative w-24 h-32 mb-2 rounded-lg overflow-hidden">
               <Image
-                src={getProfileUrl(member.profile_path, 'small')}
+                {...getImageProps(getProfileUrl(member.profile_path, 'small'), member.name, 'w-24 h-32 object-cover')}
                 alt={member.name}
                 width={96}
                 height={128}
