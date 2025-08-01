@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { addToFavorites, removeFromFavorites, toggleFavorite, setFavoriteMovies } from '@/store/slices/favoritesSlice';
+import { addToFavorites, removeFromFavorites, setFavoriteMovies } from '@/store/slices/favoritesSlice';
 import { getMovieDetails } from '@/tmdb/tmdb';
 import { MovieDetails } from '@/types/movie';
 
@@ -35,7 +35,6 @@ export function useFavorites() {
     favoriteIds,
     addToFavorites: (movieId: number) => dispatch(addToFavorites(movieId)),
     removeFromFavorites: (movieId: number) => dispatch(removeFromFavorites(movieId)),
-    toggleFavorite: (movieId: number) => dispatch(toggleFavorite(movieId)),
     isFavorite: (movieId: number) => favoriteIds.includes(movieId),
     isInitialized,
     favoriteMovies,

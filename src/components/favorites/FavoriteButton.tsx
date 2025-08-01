@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useFavorites } from '@/hooks/useFavorites';
+import { getMovieDetails } from '@/tmdb/tmdb';
+import { setFavoriteMovies } from '@/store/slices/favoritesSlice';
+import { useAppDispatch } from '@/store/hooks';
 
 interface FavoriteButtonProps {
   movieId: number;
@@ -9,17 +12,25 @@ interface FavoriteButtonProps {
 }
 
 export function FavoriteButton({ movieId, className = '' }: FavoriteButtonProps) {
-  const { isFavorite, toggleFavorite, isInitialized } = useFavorites();
+  const dispatch = useAppDispatch();
+  const { isFavorite, addToFavorites, removeFromFavorites, isInitialized, favoriteMovies } = useFavorites();
   const [isMounted, setIsMounted] = useState(false);
   
   useEffect(() => {
     setIsMounted(true);
   }, []);
   
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    toggleFavorite(movieId);
+    if (isFavorite(movieId)) {
+      removeFromFavorites(movieId);
+      dispatch(setFavoriteMovies(favoriteMovies.filter(movie => movie.id !== movieId)));
+    } else {
+      addToFavorites(movieId);
+      const movie = await getMovieDetails(movieId);
+      dispatch(setFavoriteMovies([...favoriteMovies, movie]));
+    }
   };
 
   const isMovieFavorited = isMounted && isInitialized && isFavorite(movieId);

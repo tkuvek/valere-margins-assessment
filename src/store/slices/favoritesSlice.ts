@@ -35,15 +35,6 @@ const favoritesSlice = createSlice({
       const movieId = action.payload;
       state.favoriteIds = state.favoriteIds.filter(id => id !== movieId);
     },
-    toggleFavorite: (state, action: PayloadAction<number>) => {
-      const movieId = action.payload;
-      const index = state.favoriteIds.indexOf(movieId);
-      if (index >= 0) {
-        state.favoriteIds.splice(index, 1);
-      } else {
-        state.favoriteIds.push(movieId);
-      }
-    },
     clearFavorites: (state) => {
       state.favoriteIds = [];
     },
@@ -55,7 +46,6 @@ export const {
   setFavoriteMovies,
   addToFavorites,
   removeFromFavorites,
-  toggleFavorite,
   clearFavorites,
 } = favoritesSlice.actions;
 
